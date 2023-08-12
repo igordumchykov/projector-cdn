@@ -1,5 +1,5 @@
 # projector-cdn
-Creates DNS server, 2 load balancers, 3 nginx nodes that serve and cache static content
+Creates DNS server, 2 load balancers, 4 nginx nodes that serve and cache static content
 
 # Run
 1. To enable DNS resolution on local machine, go to MAC OS `System Settings` > `Network` > choose your network > `Details` > `DNS` > add entry `127.0.0.1`
@@ -9,18 +9,19 @@ docker-compose up -d
 ```
 
 # Project structure
-1. [cache](cache) - cache for nginx node-1, node-2, node-3 static content
+1. [cache](cache) - cache for nginx node-1, node-2, node-3, node-4 static content
 2. [config](config) - configuration files for containers
 3. [data](data) - static content served by nginx nodes
 4. [docker-compose](docker-compose.yml) - docker compose file with all containers
 
 # Containers
 1. bind-dns - resolves `http://website.home:81` and `http://website.home:82` to `localhost:81`, `localhost:82`
-2. load-balancer-1 - balances traffic from localhost:81 to node-1, node-2, node-3
-3. load-balancer-2 - balances traffic from localhost:82 to node-1, node-2, node-3
+2. load-balancer-1 - balances traffic from localhost:81 to node-1, node-2, node-3, node-4
+3. load-balancer-2 - balances traffic from localhost:82 to node-1, node-2, node-3, node-4
 4. node-1 - serves static content
 5. node-2 - serves static content
 6. node-3 - serves static content
+7. node-4 - serves static content
 
 # Test
 

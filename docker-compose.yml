@@ -21,6 +21,7 @@ services:
       - node-1
       - node-2
       - node-3
+      - node-4
   load-balancer-2:
     image: nginx
     volumes:
@@ -31,6 +32,7 @@ services:
       - node-1
       - node-2
       - node-3
+      - node-4
   node-1:
     image: nginx
     volumes:
@@ -55,3 +57,11 @@ services:
       - ./config/node-3/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - '85:85'
+  node-4:
+    image: nginx
+    volumes:
+      - ./data/node-4:/usr/share/nginx/images/
+      - ./cache/node-4:/data/nginx/cache/
+      - ./config/node-4/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '86:86'
