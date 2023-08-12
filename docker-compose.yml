@@ -1,0 +1,57 @@
+version: '3'
+services:
+  bind-dns:
+    restart: always
+    image: ubuntu/bind9
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    environment:
+      - ROOT_PASSWORD=secret
+      - BIND9_USER=root
+    volumes:
+      - ./config/bind/data:/etc/bind
+  load-balancer-1:
+    image: nginx
+    volumes:
+      - ./config/load-balancer-1/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '81:80'
+    depends_on:
+      - node-1
+      - node-2
+      - node-3
+  load-balancer-2:
+    image: nginx
+    volumes:
+      - ./config/load-balancer-2/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '82:80'
+    depends_on:
+      - node-1
+      - node-2
+      - node-3
+  node-1:
+    image: nginx
+    volumes:
+      - ./data/node-1:/usr/share/nginx/images/
+      - ./cache/node-1:/data/nginx/cache/
+      - ./config/node-1/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '83:83'
+  node-2:
+    image: nginx
+    volumes:
+      - ./data/node-2:/usr/share/nginx/images/
+      - ./cache/node-2:/data/nginx/cache/
+      - ./config/node-2/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '84:84'
+  node-3:
+    image: nginx
+    volumes:
+      - ./data/node-3:/usr/share/nginx/images/
+      - ./cache/node-3:/data/nginx/cache/
+      - ./config/node-3/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '85:85'
